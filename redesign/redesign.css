@@ -1,0 +1,871 @@
+/* ============================================================================================
+   WOLF STRIKE — GECE TEMASI (sunucu seçimi · lobi · oda)
+   Moonlit night over the forest outpost, dark glass panels with chamfered edges, one accent:
+   blood red (primary action / selection), moon silver for text and rims. Barlow Condensed.
+   Loaded after bundle/main.css; every rule is scoped to #shell-root so it wins over the base theme.
+   ============================================================================================ */
+@font-face { font-family: "WS Cond"; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/barlow-condensed-latin-ext-600-normal.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "WS Cond"; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "WS Cond"; font-style: normal; font-weight: 700; font-display: swap; src: url(fonts/barlow-condensed-latin-ext-700-normal.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "WS Cond"; font-style: normal; font-weight: 700; font-display: swap; src: url(fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "WS Cond"; font-style: normal; font-weight: 800; font-display: swap; src: url(fonts/barlow-condensed-latin-ext-800-normal.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "WS Cond"; font-style: normal; font-weight: 800; font-display: swap; src: url(fonts/barlow-condensed-latin-800-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "WS Cond"; font-style: italic; font-weight: 800; font-display: swap; src: url(fonts/barlow-condensed-latin-ext-800-italic.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "WS Cond"; font-style: italic; font-weight: 800; font-display: swap; src: url(fonts/barlow-condensed-latin-800-italic.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "WS Cond"; font-style: italic; font-weight: 700; font-display: swap; src: url(fonts/barlow-condensed-latin-ext-700-italic.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "WS Cond"; font-style: italic; font-weight: 700; font-display: swap; src: url(fonts/barlow-condensed-latin-700-italic.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+#shell-root {
+    --rd-red: #e5232d;
+    --rd-red-hi: #ff4a52;
+    --rd-red-deep: #7c0d13;
+    --rd-blue: #2f8fe8;
+    --rd-blue-hi: #6cc0ff;
+    --rd-text: #eef1f5;
+    --rd-text-2: #c3cad3;
+    --rd-muted: #8c96a3;
+    --rd-edge: rgba(196, 206, 220, 0.2);
+    --rd-edge-hi: rgba(225, 232, 242, 0.42);
+    --rd-glass: linear-gradient(180deg, rgba(26, 31, 39, 0.9), rgba(11, 13, 18, 0.92));
+    --rd-glass-2: linear-gradient(180deg, rgba(34, 40, 50, 0.92), rgba(16, 19, 25, 0.94));
+    --rd-cut: 10px;
+    --rd-font: "WS Cond", "Barlow Condensed", "Roboto Condensed", "Arial Narrow", sans-serif;
+    --as-font-cond: var(--rd-font);
+}
+
+/* ---------------------------------------------------------------- night backdrop (all three screens) */
+#shell-root .as-mil {
+    background:
+        linear-gradient(180deg, rgba(4, 6, 10, 0.25), rgba(4, 6, 10, 0.55)),
+        url(bg-night.svg) center 35% / cover no-repeat,
+        #070a0f;
+}
+#shell-root .as-mil::before,
+#shell-root .as-mil::after {
+    display: none;
+}
+
+/* chamfered glass panel */
+#shell-root .as-mil .as-panel {
+    background: var(--rd-glass);
+    border: 1px solid var(--rd-edge);
+    border-radius: 0;
+    clip-path: polygon(var(--rd-cut) 0, 100% 0, 100% calc(100% - var(--rd-cut)), calc(100% - var(--rd-cut)) 100%, 0 100%, 0 var(--rd-cut));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 0 30px rgba(0, 0, 0, 0.35);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+#shell-root .as-mil .as-panel::before {
+    display: none;
+}
+
+/* shared buttons / fields */
+#shell-root .as-mil .as-icon-btn,
+#shell-root .as-mil .as-btn--ghost,
+#shell-root .as-mil .as-lang {
+    background: var(--rd-glass-2);
+    border: 1px solid var(--rd-edge);
+    border-radius: 0;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    color: var(--rd-text);
+}
+#shell-root .as-mil .as-back-btn,
+#shell-root .as-mil .as-tb-logout {
+    color: #ff5a62;
+    border-color: rgba(229, 35, 45, 0.55);
+}
+#shell-root .as-mil .as-search,
+#shell-root .as-mil .as-select {
+    background: rgba(8, 10, 14, 0.78);
+    border: 1px solid var(--rd-edge);
+    border-radius: 0;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+#shell-root .as-mil .as-select-input,
+#shell-root .as-mil .as-lang-select {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+#shell-root .as-mil .as-local-chip {
+    border: 1px solid rgba(229, 35, 45, 0.7);
+    background: rgba(229, 35, 45, 0.12);
+    color: #ff7a80;
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    transform: skewX(-12deg);
+    border-radius: 0;
+}
+#shell-root .as-mil .as-local-chip > * {
+    display: inline-block;
+    transform: skewX(12deg);
+}
+
+/* status pills (servers + rooms) */
+#shell-root .as-mil .as-status-label {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+/* ================================================================ SUNUCU SEÇİMİ */
+#shell-root .as-servers .as-srv-logo {
+    height: clamp(40px, 10vh, 66px);
+    width: auto;
+}
+#shell-root .as-servers .as-srv-sep {
+    display: none;
+}
+#shell-root .as-servers .as-ann {
+    border-color: rgba(229, 35, 45, 0.75);
+    box-shadow: 0 0 0 1px rgba(229, 35, 45, 0.25), 0 0 22px rgba(229, 35, 45, 0.18), inset 0 0 30px rgba(0, 0, 0, 0.4);
+    padding: 0;
+}
+#shell-root .as-servers .as-car-caption {
+    background: linear-gradient(0deg, rgba(5, 6, 9, 0.92), rgba(5, 6, 9, 0.55) 60%, transparent);
+}
+#shell-root .as-servers .as-cap-title {
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(18px, 5.4vh, 34px);
+    letter-spacing: 0.02em;
+    color: #f2f4f7;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+#shell-root .as-servers .as-cap-sub {
+    font-family: var(--rd-font);
+    font-weight: 600;
+    font-size: clamp(12px, 3vh, 17px);
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: #d8dde4;
+}
+#shell-root .as-servers .as-car-dot i {
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+}
+#shell-root .as-servers .as-car-dot.is-active i {
+    background: var(--rd-red);
+    box-shadow: 0 0 8px var(--rd-red);
+}
+#shell-root .as-servers .as-car-arrow {
+    background: rgba(5, 7, 10, 0.55);
+    border: 0;
+}
+
+#shell-root .as-servers .as-srv-head {
+    padding: 0.4em 1em 0.5em;
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, var(--rd-red) 0%, rgba(229, 35, 45, 0.35) 40%, transparent 85%) 1;
+    gap: 0.9em;
+}
+#shell-root .as-servers .as-srv-title {
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(18px, 5.2vh, 32px);
+    letter-spacing: 0.02em;
+    color: #f2f4f7;
+}
+#shell-root .as-servers .as-srv-cols {
+    display: none;
+}
+#shell-root .as-servers .as-srv-list {
+    gap: clamp(4px, 1.2vh, 10px);
+    padding: clamp(6px, 1.6vh, 12px) clamp(6px, 1vw, 12px);
+}
+#shell-root .as-servers .as-srv-row {
+    grid-template-columns: 0 3.2em minmax(6.5em, 0.9fr) minmax(0, 1fr) minmax(7em, 1.15fr) minmax(5em, 0.7fr) minmax(7.5em, 1fr);
+    column-gap: clamp(6px, 1vw, 16px);
+    min-height: clamp(44px, 11.5vh, 82px);
+    padding: 0 clamp(6px, 0.8vw, 12px) 0 clamp(8px, 1vw, 14px);
+    background: linear-gradient(180deg, rgba(38, 44, 54, 0.92), rgba(16, 19, 24, 0.95));
+    border: 1px solid var(--rd-edge);
+    border-radius: 0;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+#shell-root .as-servers .as-srv-row:not(.is-disabled):hover,
+#shell-root .as-servers .as-srv-row[aria-current="true"] {
+    border-color: rgba(229, 35, 45, 0.6);
+    background: linear-gradient(90deg, rgba(229, 35, 45, 0.16), rgba(38, 44, 54, 0.92) 40%, rgba(16, 19, 24, 0.95));
+}
+#shell-root .as-servers .as-srv-accent {
+    display: none;
+}
+#shell-root .as-servers .as-srv-no {
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(18px, 5vh, 32px);
+    color: #e9edf2;
+    background: none;
+    border: 0;
+    width: auto;
+    height: auto;
+}
+#shell-root .as-servers .as-srv-row .as-status {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    padding: 0.18em 0.8em 0.22em;
+    border: 1px solid color-mix(in srgb, var(--st) 75%, transparent);
+    background: color-mix(in srgb, var(--st) 12%, rgba(0, 0, 0, 0.35));
+    border-radius: 6px;
+    font-size: clamp(12px, 3vh, 18px);
+    color: var(--st);
+    box-shadow: inset 0 0 8px color-mix(in srgb, var(--st) 18%, transparent);
+}
+#shell-root .as-servers .as-srv-name {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    font-size: clamp(14px, 3.7vh, 22px);
+    letter-spacing: 0.03em;
+    color: #f2f4f7;
+    padding-left: clamp(6px, 1vw, 14px);
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+#shell-root .as-servers .as-srv-players {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3px;
+}
+#shell-root .as-servers .as-srv-players-num {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    font-size: clamp(12px, 3vh, 18px);
+    color: #e6eaf0;
+}
+#shell-root .as-servers .rd-fill {
+    display: block;
+    height: clamp(5px, 1.3vh, 9px);
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+#shell-root .as-servers .rd-fill > i {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--st, #4be27e);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--st, #4be27e) 60%, transparent);
+}
+#shell-root .as-servers .as-srv-ms {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    font-size: clamp(12px, 3vh, 18px);
+}
+/* SEÇ: red, slanted, glowing · DOLU / BAKIM: steel */
+#shell-root .as-servers .as-srv-btn {
+    position: relative;
+    justify-content: center;
+    min-height: clamp(34px, 8.4vh, 58px);
+    border: 1px solid rgba(255, 120, 125, 0.85);
+    border-radius: 0;
+    background: linear-gradient(180deg, #f2353e, #b5121b 60%, #8e0c13);
+    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 210, 210, 0.45), 0 0 16px rgba(229, 35, 45, 0.45);
+    color: #fff;
+}
+#shell-root .as-servers .as-srv-btn-label {
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(15px, 4vh, 24px);
+    letter-spacing: 0.06em;
+    text-shadow: 0 1px 2px rgba(60, 0, 0, 0.7);
+}
+#shell-root .as-servers .as-srv-btn-chev {
+    display: none;
+}
+#shell-root .as-servers .as-srv-row.is-disabled .as-srv-btn {
+    background: linear-gradient(180deg, #3b4048, #24282e);
+    border-color: rgba(200, 206, 214, 0.28);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    color: #a9b0b9;
+}
+#shell-root .as-servers .as-srv-row.is-disabled .as-srv-btn-label {
+    text-shadow: none;
+}
+#shell-root .as-servers .as-srv-row.is-disabled {
+    opacity: 1;
+}
+#shell-root .as-servers .as-srv-row.is-disabled > :not(.as-srv-btn) {
+    opacity: 0.8;
+}
+
+/* ================================================================ TOP BAR (lobby / room / market) */
+#shell-root .as-mil .as-tb-logo {
+    width: clamp(84px, 13vw, 160px);
+}
+#shell-root .as-mil .as-tb-player {
+    background: var(--rd-glass-2);
+    border: 1px solid var(--rd-edge);
+    border-radius: 0;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+#shell-root .as-mil .as-tb-player .as-avatar {
+    background: url(../assets/ui/portraits/onculer.jpg) 50% 18% / cover, #1b222c;
+    border: 1px solid var(--rd-edge-hi);
+    border-radius: 0;
+    color: transparent;
+}
+#shell-root .as-mil .as-tb-player .as-avatar svg {
+    opacity: 0;
+}
+#shell-root .as-mil .as-tb-name {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    font-size: clamp(14px, 3.4vh, 20px);
+    letter-spacing: 0.02em;
+}
+#shell-root .as-mil .as-tb-level {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    color: #dfe4ea;
+}
+#shell-root .as-mil .as-xp {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 99px;
+}
+#shell-root .as-mil .as-xp > i {
+    background: linear-gradient(90deg, #a5121a, var(--rd-red-hi));
+    border-radius: 99px;
+}
+#shell-root .as-mil .as-tag--test {
+    border-radius: 0;
+    font-family: var(--rd-font);
+    font-weight: 800;
+}
+#shell-root .as-mil .as-tb-nav {
+    gap: clamp(3px, 0.5vw, 8px);
+}
+#shell-root .as-mil .as-nav-btn,
+#shell-root .as-mil .as-nav-btn:first-child,
+#shell-root .as-mil .as-nav-btn:last-child {
+    flex-direction: row;
+    gap: 0.4em;
+    padding: 0 clamp(8px, 1vw, 16px);
+    border: 1px solid var(--rd-edge);
+    border-radius: 0;
+    background: var(--rd-glass-2);
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    color: var(--rd-text);
+    font-family: var(--rd-font);
+    font-weight: 700;
+    font-size: clamp(13px, 3.3vh, 19px);
+    letter-spacing: 0.04em;
+}
+#shell-root .as-mil .as-nav-btn--market,
+#shell-root .as-mil .as-nav-btn.is-active {
+    background: linear-gradient(180deg, #ea2a33, #a8111a);
+    border-color: rgba(255, 130, 135, 0.85);
+    color: #fff;
+    box-shadow: 0 0 14px rgba(229, 35, 45, 0.45);
+}
+#shell-root .as-mil .as-tb-coin {
+    background: var(--rd-glass-2);
+    border-radius: 0;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    font-family: var(--rd-font);
+    font-weight: 800;
+    font-size: clamp(14px, 3.4vh, 20px);
+}
+
+/* ================================================================ LOBİ */
+#shell-root .as-lobby .as-lobby-server {
+    background: var(--rd-glass-2);
+    border: 1px solid var(--rd-edge);
+    border-radius: 0;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    font-family: var(--rd-font);
+    font-weight: 700;
+    font-size: clamp(14px, 3.4vh, 20px);
+}
+#shell-root .as-lobby .as-lobby-tab {
+    display: none;
+}
+#shell-root .as-lobby .as-rooms.as-panel {
+    background: transparent;
+    border: 0;
+    clip-path: none;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+#shell-root .as-lobby .as-rooms-head {
+    display: none;
+}
+#shell-root .as-lobby .as-rooms-body {
+    gap: clamp(4px, 1.1vh, 9px);
+}
+#shell-root .as-lobby .as-rooms-scroll {
+    padding-right: 2px;
+}
+#shell-root .as-lobby .as-room-row,
+#shell-root .as-lobby .as-room-row:nth-child(even) {
+    grid-template-columns: 2.6em minmax(0, 2.1fr) minmax(0, 1.55fr) minmax(0, 1fr) minmax(6.6em, 0.95fr) minmax(6.8em, 0.85fr);
+    column-gap: clamp(6px, 1vw, 16px);
+    min-height: clamp(46px, 13vh, 88px);
+    padding: 0 clamp(8px, 1vw, 16px) 0 0;
+    background: linear-gradient(180deg, rgba(36, 41, 50, 0.93), rgba(14, 16, 21, 0.95));
+    border: 1px solid var(--rd-edge);
+    border-radius: 0;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    overflow: hidden;
+}
+#shell-root .as-lobby .as-room-row::before {
+    display: none;
+}
+#shell-root .as-lobby .as-room-row.is-selected,
+#shell-root .as-lobby .as-room-row:hover {
+    border-color: rgba(229, 35, 45, 0.75);
+    box-shadow: inset 0 0 0 1px rgba(229, 35, 45, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    background: linear-gradient(90deg, rgba(229, 35, 45, 0.14), rgba(36, 41, 50, 0.93) 45%, rgba(14, 16, 21, 0.95));
+}
+/* map picture on the far left, cut by a red diagonal; the room no. sits on the diagonal */
+#shell-root .as-lobby .as-room-row .c-no {
+    position: relative;
+    z-index: 2;
+    order: 0;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(14px, 3.6vh, 22px);
+    color: #fff;
+    background: linear-gradient(100deg, transparent 0 18%, var(--rd-red-deep) 18% 100%);
+    margin-left: calc(-1 * clamp(10px, 1.4vw, 18px));
+    padding-left: clamp(10px, 1.4vw, 18px);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+#shell-root .as-lobby .as-room-row .c-name {
+    gap: clamp(8px, 1.1vw, 16px);
+}
+#shell-root .as-lobby .as-room-row .as-room-thumb {
+    display: none;
+}
+#shell-root .as-lobby .rd-thumb {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: clamp(64px, 13vw, 170px);
+    background-size: cover;
+    background-position: center;
+    -webkit-mask-image: linear-gradient(90deg, #000 70%, transparent);
+    mask-image: linear-gradient(90deg, #000 70%, transparent);
+    opacity: 0.95;
+}
+#shell-root .as-lobby .as-room-row.rd-has-thumb {
+    padding-left: clamp(64px, 13vw, 170px);
+}
+#shell-root .as-lobby .as-room-row.rd-has-thumb .c-no {
+    margin-left: 0;
+    padding-left: 0;
+    background: none;
+}
+#shell-root .as-lobby .as-room-row.rd-has-thumb .rd-thumb::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -1px;
+    width: 34%;
+    background: linear-gradient(105deg, transparent 0 45%, var(--rd-red) 45% 52%, rgba(14, 16, 21, 0.98) 52%);
+}
+#shell-root .as-lobby .as-room-name {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    font-size: clamp(14px, 3.6vh, 22px);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #f3f5f8;
+}
+#shell-root .as-lobby .as-room-row .c-mode,
+#shell-root .as-lobby .as-room-row .c-map {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    font-size: clamp(12px, 3vh, 18px);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #e3e7ed;
+}
+#shell-root .as-lobby .as-room-row .as-mode-ico {
+    color: var(--rd-red-hi);
+    width: 1.5em;
+    height: 1.5em;
+}
+#shell-root .as-lobby .as-room-row .c-map::before {
+    content: "";
+    display: inline-block;
+    width: 0.8em;
+    height: 0.95em;
+    margin-right: 0.4em;
+    vertical-align: -0.1em;
+    background: currentColor;
+    opacity: 0.8;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 24'><path d='M10 0a9 9 0 0 0-9 9c0 6.6 9 15 9 15s9-8.4 9-15a9 9 0 0 0-9-9zm0 12.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z'/></svg>") center / contain no-repeat;
+    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 24'><path d='M10 0a9 9 0 0 0-9 9c0 6.6 9 15 9 15s9-8.4 9-15a9 9 0 0 0-9-9zm0 12.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z'/></svg>") center / contain no-repeat;
+}
+#shell-root .as-lobby .as-players-num {
+    font-family: var(--rd-font);
+    font-weight: 800;
+    font-size: clamp(14px, 3.6vh, 21px);
+    color: #fff;
+}
+#shell-root .as-lobby .as-bot-tag {
+    font-family: var(--rd-font);
+    font-weight: 600;
+    font-size: 13px;
+    color: #b5bdc7;
+}
+#shell-root .as-lobby .as-occ {
+    height: clamp(5px, 1.2vh, 8px);
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.12);
+}
+#shell-root .as-lobby .as-occ-h,
+#shell-root .as-lobby .as-occ-b {
+    background: linear-gradient(90deg, #a5121a, var(--rd-red-hi));
+}
+#shell-root .as-lobby .as-occ-b {
+    opacity: 0.75;
+}
+#shell-root .as-lobby .as-room-row .c-status {
+    justify-content: flex-end;
+}
+#shell-root .as-lobby .as-room-row .as-dot,
+#shell-root .as-lobby .as-row-chev {
+    display: none;
+}
+#shell-root .as-lobby .as-room-row .as-status-label {
+    padding: 0.25em 0.9em 0.3em;
+    border: 1px solid rgba(225, 230, 238, 0.55);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    color: #eef1f5;
+    font-size: clamp(12px, 2.9vh, 17px);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+#shell-root .as-lobby .as-room-row[data-status="playing"] .as-status-label {
+    border-color: rgba(255, 80, 88, 0.85);
+    background: rgba(229, 35, 45, 0.16);
+    color: #ff6a70;
+    box-shadow: 0 0 10px rgba(229, 35, 45, 0.25);
+}
+#shell-root .as-lobby .as-room-row[data-status="full"] .as-status-label {
+    border-color: rgba(160, 166, 176, 0.6);
+    color: #a9b0ba;
+}
+
+/* bottom: SOHBET + three big picture cards */
+#shell-root .as-lobby .as-chat-toggle {
+    background: var(--rd-glass-2);
+    border: 1px solid var(--rd-edge);
+    border-radius: 0;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    font-family: var(--rd-font);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+#shell-root .as-lobby .as-card {
+    border: 1px solid var(--rd-edge-hi);
+    border-radius: 0;
+    clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+    background: var(--card-art) 22% 30% / cover no-repeat, #141820;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+#shell-root .as-lobby .as-card::before {
+    background: linear-gradient(90deg, rgba(8, 10, 14, 0.15), rgba(8, 10, 14, 0.75) 55%, rgba(8, 10, 14, 0.85));
+}
+#shell-root .as-lobby .as-card::after {
+    display: none;
+}
+#shell-root .as-lobby .as-card--quick {
+    --card-art: url(../assets/ui/portraits/yaban_kurt.jpg) !important;
+    border-color: rgba(255, 110, 116, 0.9);
+    background: var(--card-art) 15% 25% / cover no-repeat, #5a0a10;
+    box-shadow: 0 0 18px rgba(229, 35, 45, 0.4);
+}
+#shell-root .as-lobby .as-card--quick::before {
+    background: linear-gradient(90deg, rgba(120, 8, 14, 0.15), rgba(170, 14, 22, 0.72) 50%, rgba(200, 20, 28, 0.85));
+}
+#shell-root .as-lobby .as-card--create {
+    --card-art: url(../assets/ui/portraits/onculer.jpg) !important;
+}
+#shell-root .as-lobby .as-card--players {
+    --card-art: url(../assets/ui/portraits/yagmacilar.jpg) !important;
+}
+#shell-root .as-lobby .as-card-title {
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(18px, 4.8vh, 30px);
+    letter-spacing: 0.03em;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.75);
+}
+#shell-root .as-lobby .as-card-ico {
+    color: #fff;
+}
+#shell-root .as-lobby .as-card-sub {
+    font-family: var(--rd-font);
+    font-weight: 600;
+}
+
+/* ODA BİLGİSİ (slide-over on phones / side panel on wide screens) */
+#shell-root .as-lobby .as-room-info {
+    background: var(--rd-glass);
+}
+#shell-root .as-lobby .as-ri-head h2 {
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+}
+#shell-root .as-lobby .as-ri-overlay {
+    border-left-color: var(--rd-red);
+}
+#shell-root .as-lobby .as-ri-title {
+    font-family: var(--rd-font);
+    font-weight: 800;
+}
+#shell-root .as-lobby .as-ri-join:not(.is-full) {
+    background: linear-gradient(180deg, #f2353e, #b5121b 60%, #8e0c13);
+    border-color: rgba(255, 120, 125, 0.85);
+    box-shadow: inset 0 1px 0 rgba(255, 210, 210, 0.45), 0 0 16px rgba(229, 35, 45, 0.45);
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+}
+
+/* ================================================================ ODA */
+#shell-root .as-room .as-room-head {
+    gap: 1em;
+}
+#shell-root .as-room .as-rh-no,
+#shell-root .as-room .as-rh-name {
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(15px, 4vh, 24px);
+    letter-spacing: 0.02em;
+    color: #f2f4f7;
+}
+#shell-root .as-room .as-rh-sep {
+    height: 1.2em;
+    background: rgba(255, 255, 255, 0.25);
+}
+#shell-root .as-room .as-rh-mode {
+    padding: 0.2em 1.2em 0.25em 0.9em;
+    border: 0;
+    border-radius: 0;
+    background: linear-gradient(90deg, var(--rd-red-deep), var(--rd-red));
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+    color: #fff;
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+#shell-root .as-room .as-team {
+    background: var(--rd-glass);
+    border: 1px solid var(--rd-edge);
+    border-radius: 0;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+#shell-root .as-room .as-team-head {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 0;
+    min-height: clamp(42px, 10vh, 66px);
+}
+#shell-root .as-room .as-team--alpha .as-team-head {
+    background:
+        linear-gradient(90deg, rgba(10, 40, 80, 0.2), rgba(16, 70, 140, 0.88) 45%, rgba(20, 90, 170, 0.95)),
+        url(../assets/ui/portraits/onculer.jpg) 0 22% / 38% auto no-repeat,
+        #0d2c55;
+    box-shadow: inset 0 -2px 0 var(--rd-blue-hi);
+}
+#shell-root .as-room .as-team--omega .as-team-head {
+    background:
+        linear-gradient(90deg, rgba(80, 6, 10, 0.2), rgba(140, 14, 22, 0.88) 45%, rgba(176, 18, 28, 0.95)),
+        url(../assets/ui/portraits/yagmacilar.jpg) 0 22% / 38% auto no-repeat,
+        #5a0a10;
+    box-shadow: inset 0 -2px 0 var(--rd-red-hi);
+}
+#shell-root .as-room .as-team-emblem {
+    opacity: 0;
+    width: clamp(36px, 9vw, 90px);
+}
+#shell-root .as-room .as-team-name {
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(16px, 4.6vh, 28px);
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+#shell-root .as-room .as-team-side {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.85);
+}
+#shell-root .as-room .as-team-count {
+    font-family: var(--rd-font);
+    font-weight: 800;
+    font-size: clamp(15px, 4vh, 24px);
+    color: #fff;
+}
+#shell-root .as-room .as-team-list {
+    gap: clamp(3px, 0.8vh, 6px);
+    padding: clamp(4px, 1vh, 8px);
+}
+#shell-root .as-room .as-slot-row {
+    background: linear-gradient(180deg, rgba(40, 45, 54, 0.75), rgba(18, 20, 26, 0.85));
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0;
+}
+#shell-root .as-room .as-team--alpha .as-slot-row:not(.is-empty) {
+    box-shadow: inset 3px 0 0 var(--rd-blue);
+}
+#shell-root .as-room .as-team--omega .as-slot-row:not(.is-empty) {
+    box-shadow: inset 3px 0 0 var(--rd-red);
+}
+#shell-root .as-room .as-slot-row.is-me {
+    border-color: rgba(240, 196, 80, 0.9);
+    box-shadow: inset 3px 0 0 #f0c450, 0 0 10px rgba(240, 196, 80, 0.25);
+}
+#shell-root .as-room .as-slot-row .as-avatar:not(.as-avatar--empty) {
+    border-radius: 0;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background-size: cover;
+    background-position: 50% 20%;
+    color: transparent;
+}
+#shell-root .as-room .as-slot-row .as-avatar:not(.as-avatar--empty) svg {
+    opacity: 0;
+}
+#shell-root .as-room .as-team--alpha .as-slot-row .as-avatar:not(.as-avatar--empty) {
+    background-image: url(../assets/ui/portraits/onculer.jpg);
+}
+#shell-root .as-room .as-team--omega .as-slot-row .as-avatar:not(.as-avatar--empty) {
+    background-image: url(../assets/ui/portraits/yagmacilar.jpg);
+}
+#shell-root .as-room .as-pl-nameline,
+#shell-root .as-room .as-pl-id b {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    font-size: clamp(13px, 3.2vh, 19px);
+    letter-spacing: 0.02em;
+}
+#shell-root .as-room .as-pl-sub {
+    font-family: var(--rd-font);
+    font-weight: 600;
+}
+#shell-root .as-room .as-pl-ready {
+    padding: 0.15em 0.6em;
+    border: 1px solid rgba(90, 230, 120, 0.75);
+    border-radius: 5px;
+    background: rgba(40, 200, 90, 0.12);
+    color: #6ef08e;
+    font-family: var(--rd-font);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+#shell-root .as-room .as-slot-row.is-master .as-pl-ready {
+    border-color: rgba(240, 196, 80, 0.8);
+    background: rgba(240, 196, 80, 0.12);
+    color: #f5cf63;
+}
+#shell-root .as-room .as-slot-wait {
+    font-family: var(--rd-font);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #8f99a6;
+}
+
+/* right side: tabs + info */
+#shell-root .as-room .as-tab {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--rd-text-2);
+}
+#shell-root .as-room .as-tab[aria-selected="true"] {
+    background: linear-gradient(180deg, #e3262f, #9e1119);
+    color: #fff;
+    box-shadow: inset 0 -2px 0 #ff8a8f;
+}
+#shell-root .as-room .as-tabpanels dt,
+#shell-root .as-room .as-tabpanels dd {
+    font-family: var(--rd-font);
+}
+#shell-root .as-room .as-tabpanels dt {
+    color: #aab3be;
+    font-weight: 600;
+}
+#shell-root .as-room .as-tabpanels dd {
+    color: #f2f4f7;
+    font-weight: 700;
+}
+
+/* actions: hint · SOHBET · DAVET ET · BAŞLAT */
+#shell-root .as-room .as-action-hint {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+#shell-root .as-room .as-action-hint.is-ok {
+    color: #6ef08e;
+}
+#shell-root .as-room .as-room-buttons .as-btn--ghost {
+    font-family: var(--rd-font);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+#shell-root .as-room .as-main-btn {
+    border: 1px solid rgba(255, 130, 135, 0.9);
+    border-radius: 0;
+    background: linear-gradient(180deg, #f43a43, #b8121b 58%, #8a0b12);
+    clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 215, 215, 0.5), 0 0 22px rgba(229, 35, 45, 0.55);
+    color: #fff;
+    font-family: var(--rd-font);
+    font-style: italic;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-shadow: 0 1px 3px rgba(60, 0, 0, 0.7);
+}
+#shell-root .as-room .as-main-btn[aria-disabled="true"] {
+    background: linear-gradient(180deg, #4a4f57, #2a2e34);
+    border-color: rgba(200, 206, 214, 0.3);
+    box-shadow: none;
+    color: #b9c0c9;
+}
+#shell-root .as-room .as-activity,
+#shell-root .as-room .as-room-activity {
+    font-family: var(--rd-font);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #shell-root .as-mil .as-panel {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+}
