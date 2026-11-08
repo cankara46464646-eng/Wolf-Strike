@@ -5,6 +5,7 @@ import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
 import { Vector3, Color3 } from "@babylonjs/core/Maths/math";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 import { Camera } from "@babylonjs/core/Cameras/camera";
+import { MeshBuilder } from "@babylonjs/core/Meshes/meshBuilder";
 import { loadMapGeometry, loadRecast, buildNav } from "../game/map";
 
 // Dev-only: builds the navmesh for the map and exposes it for saving (public/maps/*.nav.bin).
@@ -47,6 +48,14 @@ const w = window as unknown as Record<string, unknown>;
     w.navPlugin = nav;
     w.V3 = Vector3;
     w.scene = scene;
+    w.mark = (x: number, z: number, r: number, g: number, b: number, size = 0.8) => {
+        const m = MeshBuilder.CreateSphere("mk", { diameter: size }, scene);
+        m.position.set(x, 30, z);
+        const mt = new StandardMaterial("mk", scene);
+        mt.emissiveColor = new Color3(r, g, b);
+        mt.disableLighting = true;
+        m.material = mt;
+    };
     w.Ray = (await import("@babylonjs/core/Culling/ray")).Ray;
     w.ready = true;
 })().catch((e) => { console.error(e); w.err = String(e?.stack || e); w.ready = true; });

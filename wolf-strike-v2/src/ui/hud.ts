@@ -184,15 +184,9 @@ export class Hud {
         this.set("lcd", e.lungecd, `${(Math.max(0, Math.min(1, s.lunge)) * 100).toFixed(0)}%`, "width");
         // crosshair spread
         const gap = Math.round(6 + s.spread * 420);
-        this.set("gap", e.xhair, String(gap));
-        e.xhair.style.setProperty("--gap", `${gap}px`);
-        if (this.hitT > 0) {
-            this.hitT -= 1 / 60;
-            if (this.hitT <= 0) e.hitm.classList.remove("on", "head", "kill");
-        }
-        if (this.msgTimer > 0) {
-            this.msgTimer -= 1 / 60;
-            if (this.msgTimer <= 0) e.msg.classList.remove("on");
+        if (this.last.gap !== String(gap)) {
+            this.last.gap = String(gap);
+            e.xhair.style.setProperty("--gap", `${gap}px`);
         }
         if (this.deathTimer > 0) {
             this.deathTimer = Math.max(0, s.respawn);
@@ -208,8 +202,8 @@ export class Hud {
         m.classList.remove("on");
         void m.offsetWidth;
         m.classList.add("on");
-        this.msgTimer = dur > 0 ? dur : 0;
-        if (dur === 0 && !big) m.classList.remove("on");
+        clearTimeout(this.msgTimer);
+        if (dur > 0) this.msgTimer = window.setTimeout(() => m.classList.remove("on"), dur * 1000);
     }
 
     hitmarker(head: boolean, kill: boolean): void {
@@ -219,7 +213,8 @@ export class Hud {
         m.classList.add("on");
         m.classList.toggle("head", head);
         m.classList.toggle("kill", kill);
-        this.hitT = kill ? 0.35 : 0.18;
+        clearTimeout(this.hitT);
+        this.hitT = window.setTimeout(() => m.classList.remove("on", "head", "kill"), kill ? 350 : 180);
     }
 
     damage(angle: number): void {
@@ -336,5 +331,6 @@ ${this.scoreTable(rows)}
         this.sbPinned = false;
         this.last = {};
         this.els.msg.classList.remove("on");
+        clearTimeout(this.msgTimer);
     }
 }

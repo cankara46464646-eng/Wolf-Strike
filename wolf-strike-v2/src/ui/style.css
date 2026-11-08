@@ -243,3 +243,18 @@ button { font-family: inherit; }
     .settings label { margin: 3px 0; }
     .msg b { font-size: 48px; }
 }
+
+/* compact phone layout */
+@media (max-height: 470px) {
+    .death { padding: 6px 10px; bottom: calc(4px + var(--sb)); width: min(600px, calc(100vw - 260px)); }
+    .killedby b { font-size: 18px; }
+    .wp img { height: 30px; }
+    .wp b { font-size: 11px; }
+    .wp small { font-size: 10px; }
+    .wp-title { margin: 3px 0 2px; }
+    .wl { grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+    .wli { flex-direction: column; text-align: center; gap: 2px; padding: 3px; }
+    .wli small { font-size: 10px; }
+    .note { font-size: 12px; margin-bottom: 4px; }
+    .card h3 { font-size: 13px; margin-bottom: 3px; }
+}

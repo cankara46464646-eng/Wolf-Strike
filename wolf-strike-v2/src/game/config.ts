@@ -79,10 +79,10 @@ export const TRANSFORM = {
 
 export const MATCH = {
     duration: 300,
-    killLimit: 40,
-    respawn: 4,
+    killLimit: 60,
+    respawn: 5,
     spawnProtect: 2,
-    teamSize: 5,
+    teamSize: 4,
     spKill: 100,
     spAssist: 40,
     gravity: 20,

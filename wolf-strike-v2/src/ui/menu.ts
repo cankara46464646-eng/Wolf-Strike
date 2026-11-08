@@ -57,7 +57,7 @@ export class Menu {
     <div class="pc-body">
       <small>HIZLI MAÇ · BOTLARLA ANTRENMAN</small>
       <h2>TAKIM ÖLÜM MAÇI</h2>
-      <p><b>${SNOW_TOWN.name}</b> · 5 v 5 · 40 leş · 5 dakika</p>
+      <p><b>${SNOW_TOWN.name}</b> · 4 v 4 · 60 leş · 5 dakika</p>
       <p class="teams"><span style="--c:${TEAMS[0].color}">${TEAMS[0].name}</span> vs <span style="--c:${TEAMS[1].color}">${TEAMS[1].name}</span></p>
       <button class="btn primary big play">OYNA</button>
     </div>

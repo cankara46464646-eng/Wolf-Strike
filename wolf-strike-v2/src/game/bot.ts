@@ -40,9 +40,12 @@ export class BotBrain {
     private readonly tv2 = new Vector3();
     /** 0..1 */
     skill: number;
+    /** how much this bot likes wolf form (0.3..1.3) */
+    wolfy: number;
 
     constructor(readonly me: Actor, readonly w: BotWorld) {
-        this.skill = 0.45 + Math.random() * 0.4;
+        this.skill = 0.35 + Math.random() * 0.4;
+        this.wolfy = 0.3 + Math.random();
         this.yaw = me.yaw;
     }
 
@@ -82,13 +85,14 @@ export class BotBrain {
         // ---- shape decisions
         if (!me.transforming && me.transformCd <= 0) {
             if (me.form === "human") {
-                const close = t && this.seen && dist < 7;
-                const roam = !t && this.noTargetT > 5 && Math.random() < dt * 0.15;
-                const losing = t && me.hp < 45 && dist < 10 && Math.random() < dt * 0.8;
-                if ((close && Math.random() < dt * 2.2) || roam || losing) it.transform = true;
+                const close = t && this.seen && dist < 6.5;
+                const roam = !t && this.noTargetT > 6 && Math.random() < dt * 0.05;
+                const losing = t && me.hp < 40 && dist < 9 && Math.random() < dt * 0.5;
+                if ((close && Math.random() < dt * this.wolfy) || roam || losing) it.transform = true;
             } else {
-                const far = t && this.seen && dist > 18 && me.hp > 60 && Math.random() < dt * 0.25;
-                if (far) it.transform = true;
+                const far = t && this.seen && dist > 13 && Math.random() < dt * 0.7 * (1.5 - this.wolfy);
+                const idle = !t && this.noTargetT > 5 && Math.random() < dt * 0.12;
+                if (far || idle) it.transform = true;
             }
         }
 
@@ -172,7 +176,7 @@ export class BotBrain {
                 if (me.ammo === 0) it.reload = true;
                 this.burstT -= dt;
                 this.pauseT -= dt;
-                if (this.reactT > 0.35 - this.skill * 0.2 && aligned && dist < 45) {
+                if (this.reactT > 0.45 - this.skill * 0.2 && aligned && dist < 45) {
                     if (this.pauseT <= 0) {
                         it.fire = true;
                         if (this.burstT <= 0) this.burstT = 0.35 + Math.random() * 0.5;

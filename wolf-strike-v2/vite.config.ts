@@ -11,11 +11,16 @@ export default defineConfig({
         target: "es2020",
         chunkSizeWarningLimit: 6000,
         rollupOptions: {
+            // dev tools (model viewer, animation check, navmesh builder) only with TOOLS=1
             input: {
                 main: resolve(__dirname, "index.html"),
-                viewer: resolve(__dirname, "viewer.html"),
-                animtest: resolve(__dirname, "animtest.html"),
-                navbuild: resolve(__dirname, "navbuild.html"),
+                ...(process.env.TOOLS
+                    ? {
+                          viewer: resolve(__dirname, "viewer.html"),
+                          animtest: resolve(__dirname, "animtest.html"),
+                          navbuild: resolve(__dirname, "navbuild.html"),
+                      }
+                    : {}),
             },
         },
     },

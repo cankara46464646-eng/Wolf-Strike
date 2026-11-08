@@ -268,7 +268,7 @@ export class Game implements World, BotWorld {
     private setupViewGun(): void {
         const e = this.gunC.instantiateModelsToScene((n) => `vg:${n}`, false, { doNotInstantiate: true });
         const g = e.rootNodes[0] as TransformNode;
-        g.scaling.setAll(0.8 / 0.98);
+        g.scaling.setAll((0.8 / 0.98) * 0.52); // drawn in its own depth layer: smaller + closer = a viewmodel FOV
         g.rotationQuaternion = new Quaternion();
         this.viewGunMeshes = g.getChildMeshes();
         for (const m of this.viewGunMeshes) {
@@ -279,9 +279,20 @@ export class Game implements World, BotWorld {
         this.viewGun = g;
     }
 
+    /** Face along the navmesh route towards the enemy side (spawns sit in nooks, a straight line hits rock). */
     private faceEnemy(team: number, from: Vector3): number {
         const o = this.spawnCenter[1 - team];
-        return Math.atan2(o.x - from.x, o.z - from.z);
+        const path = this.nav ? this.nav.computePath(this.nav.getClosestPoint(from), o) : [];
+        let target = o;
+        let acc = 0;
+        let prev = from;
+        for (const p of path) {
+            acc += Vector3.Distance(prev, p);
+            prev = p;
+            target = p;
+            if (acc > 1.5) break;
+        }
+        return Math.atan2(target.x - from.x, target.z - from.z);
     }
 
     // ------------------------------------------------------------------ World (actor services)
@@ -342,8 +353,10 @@ export class Game implements World, BotWorld {
         let best = wallD, victim: Actor | null = null, head = false;
         for (const v of this.actors) {
             if (v === a || !v.alive || v.team === a.team) continue;
+            // touch players get a little bullet magnetism
+            const assist = a === this.player && this.input.touch ? 0.14 : 0;
             for (const s of v.hitSpheres(this.hs)) {
-                const d = raySphere(origin, dir, s.c, s.r);
+                const d = raySphere(origin, dir, s.c, s.r + (s.head ? assist * 0.3 : assist));
                 if (d >= 0 && d < best) {
                     best = d;
                     victim = v;
@@ -512,7 +525,11 @@ export class Game implements World, BotWorld {
 
     private frame(): void {
         if (this.disposed) return;
-        const dt = Math.min(0.05, this.engine.getDeltaTime() / 1000);
+        this.step(Math.min(0.05, this.engine.getDeltaTime() / 1000));
+    }
+
+    /** Advance the match by dt seconds (also used by the headless test harness). */
+    step(dt: number): void {
         if (this.hud.paused) {
             this.input.enabled = false;
             return;
@@ -650,7 +667,7 @@ export class Game implements World, BotWorld {
             const reloadK = p.reloadT > 0 ? Math.sin(Math.min(1, (M4A1.reload - p.reloadT) / M4A1.reload) * Math.PI) : 0;
             const tr = p.transforming ? Math.min(1, p.transformT / (TRANSFORM.time * 0.45)) : 0;
             const q = Quaternion.RotationYawPitchRoll(yaw, -pitch, 0);
-            const local = new Vector3(-0.17 + sway, -0.2 - reloadK * 0.12 - tr * 0.3 + Math.abs(sway) * 0.4, 0.36 - this.gunKick * 0.035);
+            const local = new Vector3(-0.125 + sway * 0.6, -0.15 - reloadK * 0.07 - tr * 0.18 + Math.abs(sway) * 0.25, 0.27 - this.gunKick * 0.02);
             const world = local.rotateByQuaternionToRef(q, new Vector3()).addInPlace(cam.position);
             vg.position.copyFrom(world);
             const kickQ = Quaternion.RotationAxis(new Vector3(1, 0, 0), -this.gunKick * 0.05 + reloadK * 0.5);
