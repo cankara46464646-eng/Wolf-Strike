@@ -1,0 +1,66 @@
+{
+  "weapons": {
+    "M4A1": {
+      "fire": "weapons/M4A1/fire.mp3",
+      "reload": "weapons/M4A1/reload.mp3",
+      "dry_fire": "weapons/M4A1/dry_fire.mp3"
+    },
+    "AK47": {
+      "fire": "weapons/AK47/fire.mp3",
+      "reload": "weapons/AK47/reload.mp3",
+      "dry_fire": "weapons/AK47/dry_fire.mp3"
+    },
+    "MP5": {
+      "fire": "weapons/MP5/fire.mp3",
+      "reload": "weapons/MP5/reload.mp3",
+      "dry_fire": "weapons/MP5/dry_fire.mp3"
+    },
+    "P90": {
+      "fire": "weapons/P90/fire.mp3",
+      "reload": "weapons/P90/reload.mp3",
+      "dry_fire": "weapons/P90/dry_fire.mp3"
+    },
+    "M870": {
+      "fire": "weapons/M870/fire.mp3",
+      "reload": "weapons/M870/reload.mp3",
+      "dry_fire": "weapons/M870/dry_fire.mp3"
+    },
+    "SPAS12": {
+      "fire": "weapons/SPAS12/fire.mp3",
+      "reload": "weapons/SPAS12/reload.mp3",
+      "dry_fire": "weapons/SPAS12/dry_fire.mp3"
+    },
+    "AWM": {
+      "fire": "weapons/AWM/fire.mp3",
+      "reload": "weapons/AWM/reload.mp3",
+      "dry_fire": "weapons/AWM/dry_fire.mp3",
+      "scope": "weapons/AWM/scope.mp3"
+    },
+    "M249": {
+      "fire": "weapons/M249/fire.mp3",
+      "reload": "weapons/M249/reload.mp3"
+    },
+    "Glock17": {
+      "fire": "weapons/Glock17/fire.mp3",
+      "reload": "weapons/Glock17/reload.mp3",
+      "dry_fire": "weapons/Glock17/dry_fire.mp3"
+    },
+    "DesertEagle": {
+      "fire": "weapons/DesertEagle/fire.mp3",
+      "reload": "weapons/DesertEagle/reload.mp3",
+      "dry_fire": "weapons/DesertEagle/dry_fire.mp3"
+    }
+  },
+  "shared": {
+    "bullet_flyby_01": "shared/bullet_flyby_01.mp3",
+    "bullet_flyby_02": "shared/bullet_flyby_02.mp3",
+    "impact_flesh_01": "shared/impact_flesh_01.mp3",
+    "impact_flesh_02": "shared/impact_flesh_02.mp3",
+    "impact_concrete_01": "shared/impact_concrete_01.mp3",
+    "impact_concrete_02": "shared/impact_concrete_02.mp3",
+    "impact_metal_01": "shared/impact_metal_01.mp3",
+    "impact_metal_02": "shared/impact_metal_02.mp3",
+    "impact_glass_01": "shared/impact_glass_01.mp3",
+    "impact_wood_01": "shared/impact_wood_01.mp3"
+  }
+}

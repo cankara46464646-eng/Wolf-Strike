@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0b0f14" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Wolf Strike" />
+    <!-- home-screen app (iPhone: Paylaş → Ana Ekrana Ekle opens it full screen, without the browser bars) -->
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <title>Wolf Strike</title>
+  </head>
+  <body>
+    <canvas id="game-canvas" touch-action="none"></canvas>
+    <div id="ui-root"></div>
+    <div id="shell-root"></div>
+    <div id="rotate-hint">
+      <div class="rotate-card">
+        <div class="rotate-icon"></div>
+        <p>Cihazını yatay çevir</p>
+      </div>
+    </div>
+    <!-- hosted accounts: config.js sets window.WOLF_STRIKE_CONFIG (Supabase URL + public key); empty = local test mode -->
+    <script src="config.js"></script>
+    <link rel="stylesheet" href="bundle/main.css" /><script src="wsglob.js"></script><script type="module" src="bundle/main.js"></script>
+  </body>
+</html>
